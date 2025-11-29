@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { GeneratedGraphic } from "@/types";
 
 function parseSvgDimensions(svg: string) {
@@ -29,6 +29,7 @@ const [history, setHistory] = useState<GeneratedGraphic[]>([]);
 const [galleryOffset, setGalleryOffset] = useState(0); // index of first visible item
 const [loading, setLoading] = useState(false);
 const [error, setError] = useState<string | null>(null);
+const colorInputRef = useRef<HTMLInputElement | null>(null);
 
 const brandGlyph = useMemo(() => "[ANGLE//OM]", []);
 
@@ -218,12 +219,17 @@ const canNext = galleryOffset + PAGE_SIZE < history.length;
               </div>
 
               <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-      <div className="flex flex-col gap-2">
+<div className="flex flex-col gap-2">
   <label className="text-xs font-mono uppercase tracking-[0.2em] text-slate-400">
     Primary hue
   </label>
 
-  <button type="button" className="angle-color-shell">
+  {/* ANGLE color pill */}
+  <button
+    type="button"
+    className="angle-color-shell"
+    onClick={() => colorInputRef.current?.click()}
+  >
     <span
       className="angle-color-swatch"
       style={{ background: color }}
@@ -232,15 +238,19 @@ const canNext = galleryOffset + PAGE_SIZE < history.length;
       <span className="angle-color-dot" />
       <span className="angle-color-code">{color.toUpperCase()}</span>
     </span>
+
+    {/* Hidden native color input (no white square) */}
     <input
+      ref={colorInputRef}
       type="color"
       value={color}
       onChange={(e) => setColor(e.target.value)}
-      className="angle-color-input"
+      className="hidden"
       aria-label="Primary hue"
     />
   </button>
 
+  {/* Hex text field */}
   <input
     type="text"
     value={color}
