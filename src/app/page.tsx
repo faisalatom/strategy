@@ -218,7 +218,7 @@ const canNext = galleryOffset + PAGE_SIZE < history.length;
               </div>
 
               <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-                <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2">
   <label className="text-xs font-mono uppercase tracking-[0.2em] text-slate-400">
     Primary hue
   </label>
