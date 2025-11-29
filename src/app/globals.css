@@ -203,3 +203,55 @@ a {
   transform: translateY(-4px) scale(1.01);
   box-shadow: 0 26px 80px rgba(0, 0, 0, 0.95);
 }
+
+/* ANGLE root modes */
+.angle-root {
+  background-color: #02060a;
+}
+
+/* default: grid-heavy */
+.angle-root--grid {
+  background-image:
+    radial-gradient(circle at 20% 0%, rgba(110, 245, 195, 0.18), transparent 55%),
+    radial-gradient(circle at 80% 100%, rgba(110, 245, 195, 0.12), transparent 55%);
+}
+
+.angle-root--grid .hud-grid-background {
+  opacity: 0.4;
+}
+
+/* studio: softer grid, more vignette */
+.angle-root--studio {
+  background-image:
+    radial-gradient(circle at 15% -10%, rgba(110, 245, 195, 0.28), transparent 55%),
+    radial-gradient(circle at 90% 120%, rgba(110, 245, 195, 0.22), transparent 60%),
+    radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.9), #010309 80%);
+}
+
+.angle-root--studio .hud-grid-background {
+  opacity: 0.16;
+}
+
+/* mode toggle pill */
+.angle-mode-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 255, 211, 0.22);
+  background: radial-gradient(circle at 0 0, rgba(148, 255, 211, 0.15), transparent 60%);
+}
+
+.angle-mode-pill {
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: rgba(148, 255, 211, 0.55);
+}
+
+.angle-mode-pill--active {
+  background: rgba(148, 255, 211, 0.22);
+  color: #020807;
+}
