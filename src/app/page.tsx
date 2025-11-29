@@ -228,7 +228,7 @@ const canNext = galleryOffset + PAGE_SIZE < history.length;
               <span>Render viewport</span>
               <span className="text-emerald-300">{currentGraphic ? currentGraphic.title : "Awaiting input"}</span>
             </div>
-            <div className="relative flex-1 rounded-xl border border-white/10 bg-[linear-gradient(45deg,rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(-45deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[length:16px_16px] px-4 py-6">
+            <div className="angle-viewport relative flex-1 rounded-xl border border-white/10 bg-[linear-gradient(45deg,rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(-45deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[length:16px_16px] px-4 py-6">
               <div className="absolute inset-0 rounded-xl border border-white/5" />
               {currentGraphic ? (
                 <div
