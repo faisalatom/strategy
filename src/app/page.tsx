@@ -201,7 +201,7 @@ const canNext = galleryOffset + PAGE_SIZE < history.length;
                 <button
                   type="submit"
                   disabled={loading}
-                  className="relative inline-flex items-center justify-center gap-3 rounded-full border border-emerald-400/50 px-6 py-3 text-sm font-semibold uppercase tracking-[0.25em] text-emerald-200 transition hover:border-emerald-300 hover:text-emerald-50 disabled:cursor-not-allowed disabled:border-emerald-900 disabled:text-emerald-900"
+                  className="angle-generate relative inline-flex items-center justify-center gap-3 rounded-full border border-emerald-400/50 px-6 py-3 text-sm font-semibold uppercase tracking-[0.25em] text-emerald-200 transition hover:border-emerald-300 hover:text-emerald-50 disabled:cursor-not-allowed disabled:border-emerald-900 disabled:text-emerald-900"
                 >
                   <span
                     className={`h-2 w-2 rounded-full ${loading ? "bg-emerald-200 animate-pulse" : "bg-emerald-400"}`}
@@ -241,23 +241,51 @@ const canNext = galleryOffset + PAGE_SIZE < history.length;
                 </div>
               )}
             </div>
-            {currentGraphic && (
-              <div className="flex flex-wrap items-center gap-3 text-xs font-mono text-slate-300">
+                       <div className="flex flex-col gap-3 text-xs font-mono text-slate-300">
+              <div className="flex flex-wrap items-center gap-3">
                 <button
-                  onClick={() => downloadSVG(currentGraphic)}
-                  className="rounded-full border border-white/15 px-4 py-2 uppercase tracking-[0.2em] transition hover:border-emerald-300 hover:text-emerald-100"
+                  onClick={() => currentGraphic && downloadSVG(currentGraphic)}
+                  className="rounded-full border border-white/15 px-4 py-2 uppercase tracking-[0.2em] transition hover:border-emerald-300 hover:text-emerald-100 disabled:opacity-40"
+                  disabled={!currentGraphic}
                 >
                   Download SVG
                 </button>
                 <button
-                  onClick={() => downloadPNG(currentGraphic)}
-                  className="rounded-full border border-white/15 px-4 py-2 uppercase tracking-[0.2em] transition hover:border-emerald-300 hover:text-emerald-100"
+                  onClick={() => currentGraphic && downloadPNG(currentGraphic)}
+                  className="rounded-full border border-white/15 px-4 py-2 uppercase tracking-[0.2em] transition hover:border-emerald-300 hover:text-emerald-100 disabled:opacity-40"
+                  disabled={!currentGraphic}
                 >
                   Download PNG
                 </button>
-                <span className="text-emerald-300">{currentGraphic.styleDescription}</span>
               </div>
-            )}
+
+              <div className="grid grid-cols-3 gap-2 text-[10px] uppercase tracking-[0.18em] text-slate-500">
+                <div className="rounded-lg border border-white/10 bg-black/40 px-3 py-2">
+                  <p className="mb-1">Prompt length</p>
+                  <p className="text-xs text-slate-100 tracking-normal">
+                    {prompt.length} chars
+                  </p>
+                </div>
+                <div className="rounded-lg border border-white/10 bg-black/40 px-3 py-2">
+                  <p className="mb-1">Structure</p>
+                  <p className="text-xs text-slate-100 tracking-normal">
+                    {currentGraphic?.tags?.[0]?.toUpperCase() ?? "—"}
+                  </p>
+                </div>
+                <div className="rounded-lg border border-white/10 bg-black/40 px-3 py-2">
+                  <p className="mb-1">Angle hue</p>
+                  <p className="text-xs text-emerald-300 tracking-normal">
+                    {color.toUpperCase()}
+                  </p>
+                </div>
+              </div>
+
+              {currentGraphic && (
+                <p className="mt-1 text-[10px] text-emerald-300 tracking-[0.16em] uppercase">
+                  {currentGraphic.styleDescription}
+                </p>
+              )}
+            </div>
 
             {history.length > 0 && (
   <div className="mt-4">
