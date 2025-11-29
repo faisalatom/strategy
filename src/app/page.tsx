@@ -19,6 +19,7 @@ function parseSvgDimensions(svg: string) {
 const DEFAULT_PROMPT = "the tension between trust and control across a decentralized network";
 
 export default function Home() {
+  const [mode, setMode] = useState<"grid" | "studio">("grid");
   const PAGE_SIZE = 4; // how many thumbnails per “page”
 
 const [prompt, setPrompt] = useState(DEFAULT_PROMPT);
@@ -39,6 +40,9 @@ const visibleHistory = useMemo(
 const canPrev = galleryOffset > 0;
 const canNext = galleryOffset + PAGE_SIZE < history.length;
 
+  const toggleMode = () => {
+  setMode((prev) => (prev === "grid" ? "studio" : "grid"));
+};
   const handleGenerate = useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -145,11 +149,13 @@ const canNext = galleryOffset + PAGE_SIZE < history.length;
 }, []);
 
   return (
-  <main className="min-h-screen bg-neutral-950 text-slate-100 relative overflow-hidden">
-    {/* ANGLE background field */}
+  <main
+    className={`angle-root angle-root--${mode} min-h-screen text-slate-100 relative overflow-hidden`}
+  >
+  {/* ANGLE background field */}
     <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_10%_0%,rgba(111,231,255,0.14),transparent_45%),radial-gradient(circle_at_90%_100%,rgba(110,245,195,0.10),transparent_45%)]" />
     <div className="pointer-events-none absolute inset-6 rounded-[2.5rem] border border-white/5" />
-    <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:120px_120px] opacity-40" />
+    <div className="hud-grid-background pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:120px_120px] opacity-40" />
         <div className="angle-diagonal" />
     <div className="angle-noise" />
     
@@ -160,9 +166,33 @@ const canNext = galleryOffset + PAGE_SIZE < history.length;
     <h1 className="text-2xl font-semibold tracking-[0.18em] text-slate-50">{brandGlyph}</h1>
   </div>
   <div className="text-right text-xs text-slate-400 font-mono space-y-1">
-    <div className="tracking-[0.28em] uppercase">
-      PROMPT FEED / v0.1
-    </div>
+      <div className="flex items-center gap-4 text-xs font-mono text-slate-400">
+    <span>PROMPT FEED / v0.1</span>
+    <button
+      type="button"
+      onClick={toggleMode}
+      className="angle-mode-toggle"
+    >
+      <span
+        className={
+          mode === "grid"
+            ? "angle-mode-pill angle-mode-pill--active"
+            : "angle-mode-pill"
+        }
+      >
+        GRID
+      </span>
+      <span
+        className={
+          mode === "studio"
+            ? "angle-mode-pill angle-mode-pill--active"
+            : "angle-mode-pill"
+        }
+      >
+        STUDIO
+      </span>
+    </button>
+  </div>
     <div className="text-[10px] tracking-[0.2em] text-emerald-300/80">
       X: {String(prompt.length).padStart(3, "0")} • Y: {String(history.length).padStart(3, "0")}
     </div>
@@ -170,7 +200,7 @@ const canNext = galleryOffset + PAGE_SIZE < history.length;
 </header>
 
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1.1fr_1fr]">
-          <section className="relative overflow-hidden rounded-2xl border border-white/10 bg-black/60 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.45)] backdrop-blur">
+          <section className="angle-panel relative overflow-hidden rounded-2xl border border-white/10 bg-black/60 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.45)] backdrop-blur">
             <div className="pointer-events-none absolute inset-0 border border-white/5 rounded-2xl" />
             <div className="pointer-events-none absolute inset-6 border border-white/5 rounded-xl opacity-60" />
 
@@ -244,7 +274,7 @@ const canNext = galleryOffset + PAGE_SIZE < history.length;
             </form>
           </section>
 
-          <section className="relative flex flex-col gap-4 rounded-2xl border border-white/10 bg-neutral-950/70 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.55)] backdrop-blur">
+          <section className="angle-panel relative flex flex-col gap-4 rounded-2xl border border-white/10 bg-neutral-950/70 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.55)] backdrop-blur">
             <div className="flex items-center justify-between text-xs font-mono uppercase tracking-[0.22em] text-slate-400">
               <span>Render viewport</span>
               <span className="text-emerald-300">{currentGraphic ? currentGraphic.title : "Awaiting input"}</span>
