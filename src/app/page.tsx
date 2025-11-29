@@ -156,16 +156,16 @@ const canNext = galleryOffset + PAGE_SIZE < history.length;
       <div className="relative mx-auto max-w-6xl px-6 py-12 lg:py-16">
         <header className="mb-8 flex items-center justify-between">
   <div>
-    <p className="text-xs uppercase tracking-[0.3em] text-slate-400">
-      angle // render pipeline
-    </p>
-    <h1 className="text-2xl font-semibold tracking-[0.35em] text-slate-50">
-      {brandGlyph}
-    </h1>
+    <p className="text-xs uppercase tracking-[0.3em] text-slate-400">angle // render pipeline</p>
+    <h1 className="text-2xl font-semibold tracking-[0.18em] text-slate-50">{brandGlyph}</h1>
   </div>
-  <div className="text-xs text-slate-400 font-mono text-right">
-    <p className="tracking-[0.25em] uppercase">prompt feed / v0.1</p>
-    <p className="text-[10px] text-slate-500">hud / dystopian / minimal</p>
+  <div className="text-right text-xs text-slate-400 font-mono space-y-1">
+    <div className="tracking-[0.28em] uppercase">
+      PROMPT FEED / v0.1
+    </div>
+    <div className="text-[10px] tracking-[0.2em] text-emerald-300/80">
+      X: {String(prompt.length).padStart(3, "0")} • Y: {String(history.length).padStart(3, "0")}
+    </div>
   </div>
 </header>
 
