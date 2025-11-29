@@ -76,6 +76,7 @@ export default function Home() {
   }, []);
 
   const downloadPNG = useCallback((graphic: GeneratedGraphic) => {
+    const SCALE = 3;
     const { width, height } = parseSvgDimensions(graphic.svg);
     const svgBlob = new Blob([graphic.svg], { type: "image/svg+xml;charset=utf-8" });
     const url = URL.createObjectURL(svgBlob);
