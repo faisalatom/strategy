@@ -34,3 +34,54 @@ a {
     linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
   background-size: 16px 16px;
 }
+/* ANGLE background flourishes */
+.angle-diagonal {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(111, 231, 255, 0.18),
+    transparent 55%
+  );
+  opacity: 0.18;
+}
+
+.angle-noise {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  opacity: 0.14;
+  mix-blend-mode: soft-light;
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    rgba(255, 255, 255, 0.12) 1px,
+    transparent 0
+  );
+  background-size: 4px 4px;
+}
+
+/* Generate button sweep effect */
+.angle-generate {
+  position: relative;
+  overflow: hidden;
+}
+
+.angle-generate::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 0% 50%,
+    rgba(111, 231, 255, 0.55),
+    transparent 55%
+  );
+  opacity: 0;
+  transform: translateX(-40%);
+  transition: opacity 220ms ease-out, transform 260ms ease-out;
+}
+
+.angle-generate:hover::before {
+  opacity: 0.55;
+  transform: translateX(40%);
+}
