@@ -14,8 +14,8 @@ const techMono = Share_Tech_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ledger HUD Generator",
-  description: "Generate dystopian presentation graphics from abstract prompts.",
+  title: "ANGLE//OM",
+  description: "Generate HUD-style presentation graphics from prompts with ANGLE.",
 };
 
 export default function RootLayout({
