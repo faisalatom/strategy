@@ -245,7 +245,8 @@ const canNext = galleryOffset + PAGE_SIZE < history.length;
       type="color"
       value={color}
       onChange={(e) => setColor(e.target.value)}
-      className="hidden"
+      className="angle-color-input"
+      style={{ position: "absolute", left: "-9999px", opacity: 0 }}
       aria-label="Primary hue"
     />
   </button>
