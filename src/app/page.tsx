@@ -19,14 +19,25 @@ function parseSvgDimensions(svg: string) {
 const DEFAULT_PROMPT = "the tension between trust and control across a decentralized network";
 
 export default function Home() {
-  const [prompt, setPrompt] = useState(DEFAULT_PROMPT);
-  const [color, setColor] = useState("#6ef5c3");
-  const [currentGraphic, setCurrentGraphic] = useState<GeneratedGraphic | null>(null);
-  const [history, setHistory] = useState<GeneratedGraphic[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const PAGE_SIZE = 4; // how many thumbnails per “page”
 
-  const brandGlyph = useMemo(() => "[LEDGR//GRID]", []);
+const [prompt, setPrompt] = useState(DEFAULT_PROMPT);
+const [color, setColor] = useState("#6ef5c3");
+const [currentGraphic, setCurrentGraphic] = useState<GeneratedGraphic | null>(null);
+const [history, setHistory] = useState<GeneratedGraphic[]>([]);
+const [galleryOffset, setGalleryOffset] = useState(0); // index of first visible item
+const [loading, setLoading] = useState(false);
+const [error, setError] = useState<string | null>(null);
+
+const brandGlyph = useMemo(() => "[LEDGR//GRID]", []);
+
+const visibleHistory = useMemo(
+  () => history.slice(galleryOffset, galleryOffset + PAGE_SIZE),
+  [history, galleryOffset],
+);
+
+const canPrev = galleryOffset > 0;
+const canNext = galleryOffset + PAGE_SIZE < history.length;
 
   const handleGenerate = useCallback(
     async (event: React.FormEvent<HTMLFormElement>) => {
@@ -53,7 +64,8 @@ export default function Home() {
         const data = await response.json();
         const graphic: GeneratedGraphic = data.graphic;
         setCurrentGraphic(graphic);
-        setHistory((prev) => [graphic, ...prev].slice(0, 10));
+        setHistory((prev) => [graphic, ...prev].slice(0, 20)); // keep up to 20 in memory
+        setGalleryOffset(0); // always show the newest page
       } catch (err) {
         console.error(err);
         setError(err instanceof Error ? err.message : "Unexpected error");
@@ -224,31 +236,57 @@ export default function Home() {
             )}
 
             {history.length > 0 && (
-              <div className="mt-4">
-                <div className="mb-2 flex items-center justify-between text-[11px] font-mono uppercase tracking-[0.2em] text-slate-500">
-                  <span>Session gallery</span>
-                  <span>{history.length} renders</span>
-                </div>
-                <div className="flex gap-3 overflow-x-auto pb-2">
-                  {history.map((item) => (
-                    <div
-                      key={item.createdAt + item.title}
-                      className="group relative min-w-[140px] flex-1 cursor-pointer overflow-hidden rounded-lg border border-white/10 bg-neutral-900/60 p-2 transition hover:border-emerald-300/60"
-                      onClick={() => setCurrentGraphic(item)}
-                    >
-                      <div
-                        className="pointer-events-none flex h-28 items-center justify-center overflow-hidden"
-                        dangerouslySetInnerHTML={{ __html: item.svg }}
-                      />
-                      <div className="mt-2 flex items-center justify-between text-[10px] font-mono text-slate-400">
-                        <span className="truncate uppercase tracking-[0.15em]">{item.title}</span>
-                        <span className="text-emerald-300">tap</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+  <div className="mt-4">
+    <div className="mb-2 flex items-center justify-between text-[11px] font-mono uppercase tracking-[0.2em] text-slate-500">
+      <span>Session gallery</span>
+      <div className="flex items-center gap-3">
+        <span>
+          {galleryOffset + 1}–{Math.min(galleryOffset + PAGE_SIZE, history.length)} / {history.length}
+        </span>
+        <div className="flex items-center gap-1">
+          <button
+            type="button"
+            onClick={() => setGalleryOffset((offset) => Math.max(0, offset - PAGE_SIZE))}
+            disabled={!canPrev}
+            className="rounded-full border border-white/15 px-2 py-1 text-[10px] disabled:opacity-30 disabled:cursor-not-allowed"
+          >
+            ◀
+          </button>
+          <button
+            type="button"
+            onClick={() =>
+              setGalleryOffset((offset) =>
+                offset + PAGE_SIZE < history.length ? offset + PAGE_SIZE : offset,
+              )
+            }
+            disabled={!canNext}
+            className="rounded-full border border-white/15 px-2 py-1 text-[10px] disabled:opacity-30 disabled:cursor-not-allowed"
+          >
+            ▶
+          </button>
+        </div>
+      </div>
+    </div>
+    <div className="flex gap-3 pb-2">
+      {visibleHistory.map((item) => (
+        <div
+          key={item.createdAt + item.title}
+          className="group relative w-[140px] cursor-pointer overflow-hidden rounded-lg border border-white/10 bg-neutral-900/60 p-2 transition hover:border-emerald-300/60"
+          onClick={() => setCurrentGraphic(item)}
+        >
+          <div
+            className="pointer-events-none flex h-28 items-center justify-center overflow-hidden"
+            dangerouslySetInnerHTML={{ __html: item.svg }}
+          />
+          <div className="mt-2 flex items-center justify-between text-[10px] font-mono text-slate-400">
+            <span className="truncate uppercase tracking-[0.15em]">{item.title}</span>
+            <span className="text-emerald-300">tap</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+)}
           </section>
         </div>
       </div>
