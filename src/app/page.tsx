@@ -188,16 +188,37 @@ const canNext = galleryOffset + PAGE_SIZE < history.length;
               </div>
 
               <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-                <div className="flex items-center gap-3">
-                  <label className="text-xs font-mono uppercase tracking-[0.2em] text-slate-400">Primary hue</label>
-                  <input
-                    type="color"
-                    value={color}
-                    onChange={(e) => setColor(e.target.value)}
-                    className="h-10 w-14 cursor-pointer rounded-md border border-white/10 bg-neutral-900"
-                  />
-                  <span className="text-xs text-slate-400 font-mono">{color.toUpperCase()}</span>
-                </div>
+                <div className="flex flex-col gap-2">
+  <label className="text-xs font-mono uppercase tracking-[0.2em] text-slate-400">
+    Primary hue
+  </label>
+
+  <button type="button" className="angle-color-shell">
+    <span
+      className="angle-color-swatch"
+      style={{ background: color }}
+    />
+    <span className="angle-color-chip">
+      <span className="angle-color-dot" />
+      <span className="angle-color-code">{color.toUpperCase()}</span>
+    </span>
+    <input
+      type="color"
+      value={color}
+      onChange={(e) => setColor(e.target.value)}
+      className="angle-color-input"
+      aria-label="Primary hue"
+    />
+  </button>
+
+  <input
+    type="text"
+    value={color}
+    onChange={(e) => setColor(e.target.value)}
+    className="w-[130px] rounded border border-white/10 bg-black/40 px-2 py-1 text-[11px] font-mono tracking-[0.18em] text-emerald-200 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-emerald-400/70"
+    spellCheck={false}
+  />
+</div>
                 <button
                   type="submit"
                   disabled={loading}
