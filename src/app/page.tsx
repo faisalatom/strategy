@@ -238,18 +238,17 @@ const canNext = galleryOffset + PAGE_SIZE < history.length;
       <span className="angle-color-dot" />
       <span className="angle-color-code">{color.toUpperCase()}</span>
     </span>
-
-    {/* Hidden native color input (no white square) */}
-    <input
-      ref={colorInputRef}
-      type="color"
-      value={color}
-      onChange={(e) => setColor(e.target.value)}
-      className="angle-color-input"
-      style={{ position: "absolute", left: "-9999px", opacity: 0 }}
-      aria-label="Primary hue"
-    />
   </button>
+
+  {/* Hidden native color input (triggered by the pill) */}
+  <input
+    ref={colorInputRef}
+    type="color"
+    value={color}
+    onChange={(e) => setColor(e.target.value)}
+    className="angle-color-input"
+    aria-label="Primary hue"
+  />
 
   {/* Hex text field */}
   <input
