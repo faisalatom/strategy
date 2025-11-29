@@ -129,3 +129,64 @@ a {
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.85);
   pointer-events: none;
 }
+
+/* ANGLE color control */
+.angle-color-shell {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 255, 211, 0.25);
+  background:
+    radial-gradient(circle at 0 0, rgba(148, 255, 211, 0.14), transparent 55%),
+    rgba(3, 12, 10, 0.95);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.9),
+    0 14px 40px rgba(0, 0, 0, 0.85);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.angle-color-swatch {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.9);
+  box-shadow: 0 0 0 1px rgba(148, 255, 211, 0.35);
+}
+
+.angle-color-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.65);
+}
+
+.angle-color-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #6ef5c3;
+  box-shadow: 0 0 6px rgba(110, 245, 195, 0.9);
+}
+
+.angle-color-code {
+  font-family: "Space Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(190, 255, 225, 0.95);
+}
+
+/* hide the native color input but keep it interactive */
+.angle-color-input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
