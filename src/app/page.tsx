@@ -88,25 +88,35 @@ const canNext = galleryOffset + PAGE_SIZE < history.length;
   }, []);
 
   const downloadPNG = useCallback((graphic: GeneratedGraphic) => {
-    const SCALE = 3;
-    const { width, height } = parseSvgDimensions(graphic.svg);
-    const svgBlob = new Blob([graphic.svg], { type: "image/svg+xml;charset=utf-8" });
-    const url = URL.createObjectURL(svgBlob);
-    const image = new Image();
-    image.crossOrigin = "anonymous";
+  // upscale factor for sharper PNGs
+  const SCALE = 3;
 
-    image.onload = () => {
-      const canvas = document.createElement("canvas");
-      canvas.width = width;
-      canvas.height = height;
-      const ctx = canvas.getContext("2d");
-      if (!ctx) {
-        setError("Canvas unavailable in this browser.");
-        return;
-      }
-      ctx.clearRect(0, 0, width, height);
-      ctx.drawImage(image, 0, 0, width, height);
-      canvas.toBlob((blob) => {
+  const { width, height } = parseSvgDimensions(graphic.svg);
+  const svgBlob = new Blob([graphic.svg], { type: "image/svg+xml;charset=utf-8" });
+  const url = URL.createObjectURL(svgBlob);
+  const image = new Image();
+  image.crossOrigin = "anonymous";
+
+  image.onload = () => {
+    const canvas = document.createElement("canvas");
+    canvas.width = width * SCALE;
+    canvas.height = height * SCALE;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) {
+      setError("Canvas unavailable in this browser.");
+      return;
+    }
+
+    // draw at higher resolution
+    ctx.scale(SCALE, SCALE);
+    ctx.clearRect(0, 0, width, height);
+    ctx.drawImage(image, 0, 0, width, height);
+    // reset transform (so this canvas can be reused safely, just in case)
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+    canvas.toBlob(
+      (blob) => {
         if (!blob) {
           setError("PNG export failed.");
           return;
@@ -118,24 +128,29 @@ const canNext = galleryOffset + PAGE_SIZE < history.length;
         link.download = `${safeTitle || "graphic"}.png`;
         link.click();
         URL.revokeObjectURL(downloadUrl);
-      }, "image/png");
-      URL.revokeObjectURL(url);
-    };
+      },
+      "image/png",
+      0.96 // quality hint
+    );
 
-    image.onerror = () => {
-      setError("Unable to read SVG for PNG export.");
-      URL.revokeObjectURL(url);
-    };
+    URL.revokeObjectURL(url);
+  };
 
-    image.src = url;
-  }, []);
+  image.onerror = () => {
+    setError("Unable to read SVG for PNG export.");
+    URL.revokeObjectURL(url);
+  };
+
+  image.src = url;
+}, []);
 
   return (
-    <main className="min-h-screen bg-neutral-950 text-slate-100 relative overflow-hidden">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(120,255,200,0.08),transparent_35%),radial-gradient(circle_at_80%_0%,rgba(120,160,255,0.05),transparent_40%)]" />
-      <div className="pointer-events-none absolute inset-4 border border-white/5 rounded-3xl" />
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:120px_120px] opacity-40" />
-
+  <main className="min-h-screen bg-neutral-950 text-slate-100 relative overflow-hidden">
+    {/* ANGLE background field */}
+    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_10%_0%,rgba(111,231,255,0.14),transparent_45%),radial-gradient(circle_at_90%_100%,rgba(110,245,195,0.10),transparent_45%)]" />
+    <div className="pointer-events-none absolute inset-6 rounded-[2.5rem] border border-white/5" />
+    <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:120px_120px] opacity-40" />
+    
       <div className="relative mx-auto max-w-6xl px-6 py-12 lg:py-16">
         <header className="mb-8 flex items-center justify-between">
   <div>
