@@ -323,11 +323,11 @@ const canNext = galleryOffset + PAGE_SIZE < history.length;
       {visibleHistory.map((item) => (
         <div
           key={item.createdAt + item.title}
-          className="group relative w-[140px] cursor-pointer overflow-hidden rounded-lg border border-white/10 bg-neutral-900/60 p-2 transition hover:border-emerald-300/60"
+          className="group relative min-w-[140px] flex-1 cursor-pointer overflow-hidden rounded-lg border border-white/10 bg-neutral-900/60 p-2 transition-transform duration-200 hover:border-emerald-300/70 hover:scale-[1.03]"
           onClick={() => setCurrentGraphic(item)}
         >
           <div
-            className="pointer-events-none flex h-28 items-center justify-center overflow-hidden"
+            className="pointer-events-none flex h-28 items-center justify-center overflow-hidden opacity-80 group-hover:opacity-100 transition-opacity"
             dangerouslySetInnerHTML={{ __html: item.svg }}
           />
           <div className="mt-2 flex items-center justify-between text-[10px] font-mono text-slate-400">
