@@ -29,7 +29,7 @@ const [galleryOffset, setGalleryOffset] = useState(0); // index of first visible
 const [loading, setLoading] = useState(false);
 const [error, setError] = useState<string | null>(null);
 
-const brandGlyph = useMemo(() => "[LEDGR//GRID]", []);
+const brandGlyph = useMemo(() => "[ANGLE//OM]", []);
 
 const visibleHistory = useMemo(
   () => history.slice(galleryOffset, galleryOffset + PAGE_SIZE),
@@ -138,12 +138,19 @@ const canNext = galleryOffset + PAGE_SIZE < history.length;
 
       <div className="relative mx-auto max-w-6xl px-6 py-12 lg:py-16">
         <header className="mb-8 flex items-center justify-between">
-          <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-slate-400">render pipeline</p>
-            <h1 className="text-2xl font-semibold tracking-[0.18em] text-slate-50">{brandGlyph}</h1>
-          </div>
-          <div className="text-xs text-slate-400 font-mono">PROMPT FEED / v0.1</div>
-        </header>
+  <div>
+    <p className="text-xs uppercase tracking-[0.3em] text-slate-400">
+      angle // render pipeline
+    </p>
+    <h1 className="text-2xl font-semibold tracking-[0.35em] text-slate-50">
+      {brandGlyph}
+    </h1>
+  </div>
+  <div className="text-xs text-slate-400 font-mono text-right">
+    <p className="tracking-[0.25em] uppercase">prompt feed / v0.1</p>
+    <p className="text-[10px] text-slate-500">hud / dystopian / minimal</p>
+  </div>
+</header>
 
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1.1fr_1fr]">
           <section className="relative overflow-hidden rounded-2xl border border-white/10 bg-black/60 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.45)] backdrop-blur">
