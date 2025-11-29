@@ -150,6 +150,8 @@ const canNext = galleryOffset + PAGE_SIZE < history.length;
     <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_10%_0%,rgba(111,231,255,0.14),transparent_45%),radial-gradient(circle_at_90%_100%,rgba(110,245,195,0.10),transparent_45%)]" />
     <div className="pointer-events-none absolute inset-6 rounded-[2.5rem] border border-white/5" />
     <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:120px_120px] opacity-40" />
+        <div className="angle-diagonal" />
+    <div className="angle-noise" />
     
       <div className="relative mx-auto max-w-6xl px-6 py-12 lg:py-16">
         <header className="mb-8 flex items-center justify-between">
